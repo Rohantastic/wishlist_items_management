@@ -13,7 +13,7 @@ import java.util.function.Function;
 @Component
 public class JwtHelper {
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60; //Setting Jwt validity up to 5 hours
-    private String secret = "r0h4nB4Ck3nD1nT3rNf0RX1nDuSewFewFuIh45498754923u2h4234879"; //Secret Key Creation
+    private String secret = "r0h4nB4Ck3nD1nT3rNf0RX1nDuSeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQSflKxwRJSMeKKF2QT4fwpMeJf36POk6yJVadQssw5c"; //Secret Key Creation
 
 
     //This method will fetch userName from Token.
