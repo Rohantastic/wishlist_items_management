@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Component
+//This will execute if we have any exception while logging or fetching
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override

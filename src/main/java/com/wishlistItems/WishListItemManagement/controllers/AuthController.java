@@ -35,7 +35,7 @@ public class AuthController {
 
     @PostMapping("/create-user")
     public User createUser(@RequestBody User user){
-        return userService.createUser(user);
+        return userService.createUser(user); //user object goes in service class and then stored into database
     }
 
     @PostMapping("/login")
@@ -55,7 +55,7 @@ public class AuthController {
     private void doAuthenticate(String email,String password){
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email,password);
         try{
-            manager.authenticate(authentication);
+            manager.authenticate(authentication); //Authentication Manager is responsible to authenticate any user
         }catch (BadCredentialsException e){
             throw new RuntimeException("Invalid Username or password");
         }

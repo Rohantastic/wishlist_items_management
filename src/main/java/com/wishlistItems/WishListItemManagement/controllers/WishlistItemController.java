@@ -35,14 +35,14 @@ public class WishlistItemController {
         // Setting the retrieved user in the WishlistEntity
         item.setUser(user);
 
-        // Saving the wishlist item
+        // Saving the wishlist item by calling service class' method
 
         return wishlistService.createWishlist(item);
     }
 
     @GetMapping("/wishlists")
-    public List<WishlistEntity> getUserWishlist(Principal principal) {
-        String username = principal.getName();
+    public List<WishlistEntity> getUserWishlist(Principal principal) { //Principal interface has method to fetch name
+        String username = principal.getName(); //fetching username
         return wishlistService.getWishlistItemsByUsername(username);
     }
 
@@ -50,8 +50,8 @@ public class WishlistItemController {
     public ResponseEntity<String> deleteWishlistItem(@PathVariable long wishlistId) {
         // Check if the wishlist item exists
         Optional<WishlistEntity> optionalWishlistItem = wishlistService.getWishlistItemById(wishlistId);
-        if (optionalWishlistItem.isPresent()) {
-            wishlistService.deleteWishlistItem(wishlistId);
+        if (optionalWishlistItem.isPresent()) { //if we have item in wishlist then process to remove from database
+            wishlistService.deleteWishlistItem(wishlistId); //calling service method to delete the wishlist item
             return new ResponseEntity<>("Item has been removed from wishlist", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Item not found in wishlist", HttpStatus.NOT_FOUND);

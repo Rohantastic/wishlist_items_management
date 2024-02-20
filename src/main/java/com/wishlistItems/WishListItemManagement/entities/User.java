@@ -15,6 +15,8 @@ import java.util.Collection;
 @Entity
 @Table(name="user_table")
 public class User implements UserDetails {
+    //User Entity whose table will be created in MySQL database.
+
     @Id
     private String userId;
     private String name;

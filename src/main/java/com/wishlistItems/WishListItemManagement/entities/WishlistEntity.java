@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class WishlistEntity {
+public class WishlistEntity { //Wishlist table will be created into Database
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
@@ -16,9 +16,9 @@ public class WishlistEntity {
     private float price;
 
 
-    //forming database relation
+    //forming database relation many to one i.e 1 user can have multiple wishlist items
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user; //User Object from User entity
 
 }

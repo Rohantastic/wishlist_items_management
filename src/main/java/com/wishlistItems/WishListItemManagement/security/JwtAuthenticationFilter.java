@@ -23,6 +23,7 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    //Setting Logger for debugging purpose
     private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
     @Autowired
     private JwtHelper jwtHelper;
@@ -34,18 +35,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        //Retrieving Token from Header from incoming request
         String requestHeader = request.getHeader("Authorization");
 
         logger.info(" Header :  {}", requestHeader);
-        String username = null;
-        String token = null;
+
+        String username = null; //variable to store username
+        String token = null; //variable to store token
+
         if (requestHeader != null && requestHeader.startsWith("Bearer")) {
 
             token = requestHeader.substring(7);
+            //extracting only token from string passed as header
+
             try {
-
-                username = this.jwtHelper.getUsernameFromToken(token);
-
+                username = this.jwtHelper.getUsernameFromToken(token); //calling method from jwtHelper class to get user from token
             } catch (IllegalArgumentException e) {
                 logger.info("Illegal Argument while fetching the username !!");
                 e.printStackTrace();
@@ -63,14 +67,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             logger.info("Invalid Header Value !");
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
-            if (validateToken) {
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) { // if user is not authenticated
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username); //getting user by username
+            Boolean validateToken = this.jwtHelper.validateToken(token, userDetails); //validating token by calling helper method from jwtHelper
+            if (validateToken) { //if the token gets validated
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication); //Authentication Passed!!!
             } else {
                 logger.info("Validation fails !!");
             }

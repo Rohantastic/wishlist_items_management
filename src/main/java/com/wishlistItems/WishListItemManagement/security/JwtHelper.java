@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,13 +12,17 @@ import java.util.function.Function;
 
 @Component
 public class JwtHelper {
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-    private String secret = "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
+    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60; //Setting Jwt validity up to 5 hours
+    private String secret = "r0h4nB4Ck3nD1nT3rNf0RX1nDuSewFewFuIh45498754923u2h4234879"; //Secret Key Creation
 
+
+    //This method will fetch userName from Token.
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
+
+    //This method will check for expiration time of our token which is 5 hours
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
@@ -38,10 +41,14 @@ public class JwtHelper {
         return expiration.before(new Date());
     }
 
+
+    //Method responsible for generating JWT Token
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername());
     }
+
+    //Private method for token generation
     private String doGenerateToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
@@ -49,6 +56,7 @@ public class JwtHelper {
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
+    //Token Validation
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
