@@ -28,7 +28,7 @@ Before you begin, ensure you have the following installed:
 ### Wishlist Management
 
 - `/api/wishlists` (GET): Retrieve user's wishlist.
-- `/api/wishlists` (POST): Create a new wishlist item.
+- `/api/wishlist` (POST): Create a new wishlist item.
 - `/api/wishlists/{id}` (DELETE): Remove a wishlist item by ID.
 
 Ensure that only authenticated users can access and manage their wishlists.
